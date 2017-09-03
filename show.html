@@ -26,7 +26,6 @@ console.log(log_to_show);
 		<script> 
 // Set the date we're counting down to
 var countDownDate = new Date().getTime();
-var dictionary_of_spoilers = {} 
 var distance;
 // Update the count down every 1 second
 var x = setInterval(function() {
@@ -36,8 +35,16 @@ var x = setInterval(function() {
 	distance = Math.floor((now - countDownDate)/1000);
     console.log(log_to_show[distance]);
     if(log_to_show[distance] != undefined){
+		var hours = Math.floor((distance %
+			(60 * 60 * 24)) / (60 *
+				60));
+		var minutes = Math.floor((distance
+			% (60 * 60)) / 60);
+		var seconds = Math.floor((distance
+			% 60));
         var last_html = document.getElementById("running_log").innerHTML;
-        var new_html = last_html + log_to_show[distance] + "<br />";
+        var new_html =  last_html +hours + ":" +
+			minutes + ":" + seconds + " | "  + log_to_show[distance] + "<br />";
         document.getElementById("running_log").innerHTML = new_html;
     }
 	// Time calculations for days, hours, minutes and seconds
