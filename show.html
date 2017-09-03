@@ -12,17 +12,13 @@ socket.on('welcome', function(data) {
 });
 socket.on('error', console.error.bind(console));
 socket.on('message', console.log.bind(console));
-
+socket.emit('show log', 'default');
 		</script>
 	</head>
 	<body>
 		<div id = "running_log">maybe put an explination here?.</div>
 		<!-- Display the countdown timer in an element -->
-		<ul id="messages"></ul>
 		<div id="time"></div>
-		<input id="spoiler" autocomplete="off"/>
-		<button	onClick="sendData()">Add Comment</button>
-		<button onClick="submitSpoilers()"> Submit spoilers </button>
 		<script> 
 // Set the date we're counting down to
 var countDownDate = new Date().getTime();
@@ -42,55 +38,7 @@ var x = setInterval(function() {
 	document.getElementById("time").innerHTML = hours + "h "
 		+ minutes + "m " + seconds + "s ";
 }, 1000);
-document.getElementById("spoiler").addEventListener("keydown", function(e) {
-	if (e.keyCode === 13) {
-		sendData(e);
-	}
-});
-function sendData(e) {
-	var spoiler =
-		document.getElementById("spoiler").value.trim();
-	if (spoiler === "") return false;
 
-	var socket = io();
-	socket.emit('rec-final', spoiler);
-	console.log(distance + ":" + spoiler);
-	if (dictionary_of_spoilers[distance] ==
-		undefined) {
-		dictionary_of_spoilers[distance]
-			= spoiler; 
-	}
-	else {
-		dictionary_of_spoilers[distance]
-			+= "\n<br />" + spoiler; 
-	}
-	document.getElementById("spoiler").value =
-		"";
-	// Rewrite what messages have been sent with time.
-		var new_messages = ""
-	for (var key in dictionary_of_spoilers) {
-		var hours = Math.floor((key %
-			(60 * 60 * 24)) / (60 *
-				60));
-		var minutes = Math.floor((key
-			% (60 * 60)) / 60);
-		var seconds = Math.floor((key
-			% 60));
-		new_messages += hours + ":" +
-			minutes + ":" + seconds + " | " +
-			dictionary_of_spoilers[key] + "<br />";
-	}
-	document.getElementById("messages").innerHTML
-		= new_messages;
-	document.getElementById("spoiler").focus();
-	document.getElementById("spoiler").select();
-	return false;
-}
-
-function submitSpoilers(e) {
-	var socket = io();
-	socket.emit('submit spoiler', JSON.stringify(dictionary_of_spoilers));
-}
 		</script>
 	</body>
 </html>
