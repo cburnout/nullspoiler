@@ -5,9 +5,10 @@
         <ul id="messages"></ul>
         <div id="time"></div>
         <input id="spoiler" autocomplete="off"/><button onClick="sendData()">Add Comment</button>
-        <form>
+        <form method="post">
             <button> Submit spoilers </button>
-        </form>
+            <input type="hidden" id="json" name="hiddenjson">
+        </form> 
         <script>
 console.log("started");
 
