@@ -1,4 +1,3 @@
-process.setMaxListeners(0);
 var http = require('http'),
 	fs = require('fs'),
 	// NEVER use a Sync function except at start-up!
@@ -21,7 +20,11 @@ io.on('connection', function(socket) {
 	socket.on('i am client', console.log);
 	socket.on('rec-final', console.log);
 	socket.on('submit spoiler', function(data) {
-		console.log(data);	
+		console.log(data);
+		fs.writeFile("spoilerlogs/test.log", data, (err) => {
+			if (err) throw err;
+			console.log('saved');
+		});	
 	});
 });
 
