@@ -1,7 +1,9 @@
 var http = require('http'),
 	fs = require('fs'),
 	// NEVER use a Sync function except at start-up!
-	index = fs.readFileSync(__dirname + '/index.html');
+	index = fs.readFileSync(__dirname + '/index.html')
+	showlog = fs.readFileSync(__dirname + '/show.html')
+	createlog = fs.readFileSync(__dirname + '/create.html');
 
 // Send index.html to all requests
 var app = http.createServer(function(req, res) {
