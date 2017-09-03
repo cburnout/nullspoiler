@@ -1,10 +1,9 @@
 <html>
 	<body>
-		<h1>My Header</h1>
-		<p id = "running_log">My paragraph.</p>
+		<div id = "running_log">maybe put an explination here?.</div>
 		<!-- Display the countdown timer in an element -->
-		<p id="demo"></p>
 		<ul id="messages"></ul>
+		<div id="time"></div>
 		<input id="spoiler" autocomplete="off"/><button onClick="sendData()">Add Comment</button>
 		<form>
 			<button> Submit spoilers </button>
@@ -23,30 +22,38 @@ var x = setInterval(function() {
 	var now = new Date().getTime();
 
 	// Find the distance between now an the count down date
-	distance = now - countDownDate;
+	distance = Math.floor((now - countDownDate)/1000);
 
 	// Time calculations for days, hours, minutes and seconds
-	var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-	var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-	var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+	var hours = Math.floor((distance % (60 * 60 * 24)) / (60 * 60));
+	var minutes = Math.floor((distance % (60 * 60)) / 60);
+	var seconds = Math.floor((distance % 60));
 
-	// Display the result in the element with id="demo"
-	document.getElementById("demo").innerHTML = hours + "h "
+	// Display the result in the element with id="time"
+	document.getElementById("time").innerHTML = hours + "h "
 		+ minutes + "m " + seconds + "s ";
 
 }, 1000);
 
 
 function sendData(e) {
-	var spoiler = document.getElementById("spoiler").value;
-	console.log(distance/1000 + ":" + spoiler);
+	var spoiler = document.getElementById("spoiler").value.trim();
+    if (spoiler === "") return false;
+	console.log(distance + ":" + spoiler);
 	if (dictionary_of_spoilers[distance] == undefined) {
 		dictionary_of_spoilers[distance] = spoiler; 
 	}
 	else {
 		dictionary_of_spoilers[distance] += "\n" + spoiler; 
 	}
-
+    document.getElementById("spoiler").value = "";
+    
+    // Rewrite what messages have been sent with time.
+    var new_messages = ""
+    for (var key in dictionary_of_spoilers) {
+        new_messages += key + " : " + dictionary_of_spoilers[key] + "<br />";
+    }
+    document.getElementById("messages").innerHTML = new_messages;
 	return false;
 }
 		</script>
