@@ -5,13 +5,18 @@
         <ul id="messages"></ul>
         <div id="time"></div>
         <input id="spoiler" autocomplete="off"/><button onClick="sendData()">Add Comment</button>
-        <form method="post">
+        <form action="">
             <button> Submit spoilers </button>
             <input type="hidden" id="json" name="hiddenjson">
         </form> 
+        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+        <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
         <script>
-console.log("started");
-
+var socket = io();
+socket.on("time", function(data)) {
+    console.log("what");
+    console.log(data.message);
+}
 // Set the date we're counting down to
 var countDownDate = new Date().getTime();
 var dictionary_of_spoilers = {} 
@@ -63,10 +68,12 @@ function sendData(e) {
         new_messages += hours + ":" + minutes + ":" + seconds + " | " + dictionary_of_spoilers[key] + "<br />";
     }
     document.getElementById("messages").innerHTML = new_messages;
+    document.getElementById("json").value = new_messages;
     document.getElementById("spoiler").focus();
     document.getElementById("spoiler").select();
     return false;
-}
+};
+
         </script>
     </body>
 </html>
