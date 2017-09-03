@@ -6,7 +6,7 @@ index = fs.readFileSync(__dirname + '/index.html')
 showlog = fs.readFileSync(__dirname + '/show.html')
 createlog = fs.readFileSync(__dirname + '/create.html');
 
-// Send index.html to all requests
+// TODO: fix this hacky shit
 var app = http.createServer(function(req, res) {
 	res.writeHead(200, {'Content-Type': 'text/html'});
 
@@ -43,8 +43,10 @@ io.on('connection', function(socket) {
 		});	
 	});
 	socket.on('show log', function(data) {
-		var to_send = fs.readFile(__dirname + '/spoilerlogs/test.log');
+		console.log('show log');
+		var to_send = fs.readFileSync(__dirname + '/spoilerlogs/test.log', "utf8");
 		socket.emit('return log', to_send);
+		console.log(to_send);
 	});
 });
 
