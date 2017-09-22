@@ -1,32 +1,22 @@
 <!doctype html>
 <html>
 	<head>
-		<script src='socket.io.js'></script>
-		<script>
-var socket = io();
-
-socket.on('welcome', function(data) {
-
-	// Respond with a message including this clients' id sent from the server
-	socket.emit('i am client', {data: 'foo!', id: data.id});
-});
-socket.on('error', console.error.bind(console));
-socket.on('message', console.log.bind(console));
-
-		</script>
 	</head>
 	<body>
-		<div id = "running_log">maybe put an explination here?.</div>
-		<!-- Display the countdown timer in an element -->
+		<input id="title" autocomplete="off"/>
+		<button	onClick="setTitle()">Add Comment</button>
+        <div id = "set_title"> </div>
+        <div id = "running_log">maybe put an explination here?.</div>
 		<ul id="messages"></ul>
 		<div id="time"></div>
 		<input id="spoiler" autocomplete="off"/>
 		<button	onClick="sendData()">Add Comment</button>
 		<button onClick="submitSpoilers()"> Submit spoilers </button>
-		<script> 
+		<script>
 // Set the date we're counting down to
 var countDownDate = new Date().getTime();
-var dictionary_of_spoilers = {} 
+var dictionary_of_spoilers = {};
+var spoiler_title = "";
 var distance;
 // Update the count down every 1 second
 var x = setInterval(function() {
@@ -52,8 +42,6 @@ function sendData(e) {
 		document.getElementById("spoiler").value.trim();
 	if (spoiler === "") return false;
 
-	var socket = io();
-	socket.emit('rec-final', spoiler);
 	console.log(distance + ":" + spoiler);
 	if (dictionary_of_spoilers[distance] ==
 		undefined) {
@@ -86,10 +74,20 @@ function sendData(e) {
 	document.getElementById("spoiler").select();
 	return false;
 }
-
+function setTitle(e) {
+    spoiler_title = document.getElementById("title").value.trim();
+    document.getElementById("set_title").innerHTML = spoiler_title;
+}
 function submitSpoilers(e) {
-	var socket = io();
-	socket.emit('submit spoiler', JSON.stringify(dictionary_of_spoilers));
+    var full_log = {title : spoiler_title, spoiler : dictionary_of_spoilers}
+    console.log(full_log);
+    console.log(full_log.spoiler);
+    var req = new XMLHttpRequest();
+    req.open('POST', 'http://localhost:3000/createlog');
+    req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    req.send(JSON.stringify(full_log));
+    var ret = req.responseJSON;
+    console.log("ret" + ret)
 }
 		</script>
 	</body>

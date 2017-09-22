@@ -1,23 +1,6 @@
 <!doctype html>
 <html>
 	<head>
-		<script src='/socket.io/socket.io.js'></script>
-		<script>
-var socket = io();
-
-socket.on('welcome', function(data) {
-
-	// Respond with a message including this clients' id sent from the server
-	socket.emit('i am client', {data: 'foo!', id: data.id});
-});
-
-socket.on('error', console.error.bind(console));
-socket.on('message', console.log.bind(console));
-socket.emit('show log', 'default');
-var log_to_show = {}
-socket.on('return log', function(data) {console.log(data); log_to_show = JSON.parse(data)});
-console.log(log_to_show); 
-		</script>
 	</head>
 	<body>
 		<div id = "running_log">OHMYGODICANTBELIEVE <br /></div>
