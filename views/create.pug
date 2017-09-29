@@ -1,0 +1,16 @@
+extends layout
+block content
+  h1= title
+  p Welcome to #{title}
+  input#name.form-control(type='text', name = 'title')
+  button(type='button'  value='Change Title' onclick='setTitle()') Change Title
+  div#set_title
+  div#running_log Maybe an explination here
+  div#messages
+  div#time 
+  input#spoiler.form-control(type='text' autocomplete='off')
+  button(type='button' onclick='sendData()') Add Comment
+  button(type='button' onclick='submitSpoilers()') Submit spoilers
+  script(src="js/create.js")
+
+
